@@ -16,16 +16,26 @@ describe('computed', () => {
     vm.degrees = 16
     expect(vm.fahrenheit).toBe(60.8)
   })
+
+  test('fahrenheit to celsius', () => {
+    const { vm } = mount(Temprature, {
+      propsData: {
+        temp: '50f'
+      }
+    })
+    expect(vm.fahrenheit).toBe(50)
+    expect(vm.celsius).toBe(10)
+  })
 })
 
 
-test('temp', () => {
+test('temp', async() => {
   const wrapper = mount(Temprature, {
     propsData: {
       temp: 40
     }
   })
-  const vm = wrapper
+  const { vm } = wrapper
   expect(vm.degrees).toBe(40)
   expect(vm.type).toBe('celsius')
 
@@ -33,6 +43,7 @@ test('temp', () => {
     temp: '50f'
   })
   
+  await wrapper.vm.$nextTick
   expect(vm.degrees).toBe(50)
   expect(vm.type).toBe('fahrenheit')
 })
